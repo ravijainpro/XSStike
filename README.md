@@ -104,3 +104,180 @@ Licensed under the GNU GPLv3, see [LICENSE](LICENSE) for more information.
 
 The WAF signatures in `/db/wafSignatures.json` are taken & modified from [sqlmap](https://github.com/sqlmapproject/sqlmap). I extracted them from sqlmap's waf detection modules which can found [here](https://github.com/sqlmapproject/sqlmap/blob/master/waf/) and converted them to JSON.\
 `/plugins/retireJS.py` is a modified version of [retirejslib](https://github.com/FallibleInc/retirejslib/).
+
+
+
+<div class="container-lg new-discussion-timeline experiment-repo-nav  p-responsive">
+  <div class="repository-content ">
+
+    
+    
+  <div id="wiki-wrapper" class="page">
+      
+
+    <div class="d-flex flex-column flex-md-row gh-header">
+      
+
+        
+    </div>
+
+    
+<h1>Usage</h1>
+  <div id="wiki-content" class="d-flex flex-column flex-md-row">
+    <div id="wiki-body" class="mt-4 flex-auto min-width-0 gollum-markdown-content instapaper_body">
+        <div class="markdown-body">
+          <pre width="500px"><code>usage: xsstrike.py [-h] [-u TARGET] [--data DATA] [-t THREADS] [--seeds SEEDS] [--json] [--path]
+                   [--fuzzer] [--update] [--timeout] [--params] [--crawl] [--blind]
+                   [--skip-dom] [--headers] [--proxy] [-d DELAY] [-e ENCODING]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -u, --url             target url
+  --data                post data
+  -f, --file            load payloads from a file
+  -t, --threads         number of threads
+  -l, --level           level of crawling
+  -t, --encode          payload encoding
+  --json                treat post data as json
+  --path                inject payloads in the path
+  --seeds               load urls from a file as seeds
+  --fuzzer              fuzzer
+  --update              update
+  --timeout             timeout
+  --params              find params
+  --crawl               crawl
+  --proxy               use prox(y|ies)
+  --blind               inject blind xss payloads while crawling
+  --skip                skip confirmation dialogue and poc
+  --skip-dom            skip dom checking
+  --headers             add headers
+  -d, --delay           delay between requests
+</code></pre>
+<h3>
+<a id="user-content-scan-a-single-url" class="anchor" href="#scan-a-single-url" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scan a single URL</h3>
+<p>Option: <code>-u</code> or <code>--url</code></p>
+<p>Test a single webpage which uses GET method.</p>
+<p><code>python xsstrike.py -u "http://example.com/search.php?q=query"</code></p>
+<h4>
+<a id="user-content-supplying-post-data" class="anchor" href="#supplying-post-data" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplying POST data</h4>
+<p><code>python xsstrike.py -u "http://example.com/search.php" --data "q=query"</code></p>
+<h3>
+<a id="user-content-testing-url-path-components" class="anchor" href="#testing-url-path-components" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing URL path components</h3>
+<p>Option: <code>--path</code></p>
+<p>Want to inject payloads in the URL path like <code>http://example.com/search/&lt;payload&gt;</code>, you can do that with <code>--path</code> switch.</p>
+<p><code>python xsstrike.py -u "http://example.com/search/form/query" --path</code></p>
+<h3>
+<a id="user-content-treat-post-data-as-json" class="anchor" href="#treat-post-data-as-json" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Treat POST data as JSON</h3>
+<p>Option: <code>--json</code></p>
+<p>This switch can be used to test JSON data via POST method.</p>
+<p><code>python xsstrike.py -u "http://example.com/search.php" --data '{"q":"query"} --json'</code></p>
+<h3>
+<a id="user-content-crawling" class="anchor" href="#crawling" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawling</h3>
+<p>Option: <code>--crawl</code></p>
+<p>Start crawling from the target webpage for targets and test them.</p>
+<p><code>python xsstrike.py -u "http://example.com/page.php" --crawl</code></p>
+<h3>
+<a id="user-content-crawling-depth" class="anchor" href="#crawling-depth" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawling depth</h3>
+<p>Option: <code>-l</code> or <code>--level</code> | Default: <code>2</code></p>
+<p>This option let's you specify the depth of crawling.</p>
+<p><code>python xsstrike.py -u "http://example.com/page.php" --crawl -l 3</code></p>
+<h3>
+<a id="user-content-testingcrawling-urls-from-a-file" class="anchor" href="#testingcrawling-urls-from-a-file" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing/Crawling URLs from a file</h3>
+<p>Option: <code>--seeds</code></p>
+<p>If you want to test URLs from a file or just simply want to add seeds for crawling, you can use the <code>--seeds</code> option.</p>
+<p><code>python xsstrike.py --seeds urls.txt</code></p>
+<p>or</p>
+<p><code>python xsstrike.py -u "http://example.com" -l 3 --seeds urls.txt</code></p>
+<h3>
+<a id="user-content-bruteforce-payloads-from-a-file" class="anchor" href="#bruteforce-payloads-from-a-file" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bruteforce payloads from a file</h3>
+<p>Option: <code>-f</code> or <code>--file</code></p>
+<p>You can load payloads from a file and check if they work. XSStrike will not perform any analysis in this mode.</p>
+<p><code>python3 xsstrike.py -u "http://example.com/page.php?q=query" -f /path/to/file.txt</code></p>
+<p>Using <code>default</code> as file path with load XSStrike's default payloads.</p>
+<h3>
+<a id="user-content-find-hidden-parameters" class="anchor" href="#find-hidden-parameters" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Find hidden parameters</h3>
+<p>Option: <code>--params</code></p>
+<p>Find hidden parameters by parsing HTML &amp; bruteforcing.</p>
+<p><code>python xsstrike.py -u "http://example.com/page.php" --params</code></p>
+<h3>
+<a id="user-content-number-of-threads" class="anchor" href="#number-of-threads" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Number of threads</h3>
+<p>Option: <code>-t</code> or <code>--threads</code> | Default: <code>2</code></p>
+<p>It is possible to make concurrent requests to the target while crawling and <code>-t</code> option can be used to specify the number of concurrent requests to make.
+While threads can help to speed up crawling, they might also trigger security mechanisms. A high number of threads can also bring down small websites.</p>
+<p><code>python xsstrike.py -u "http://example.com" -t 10 --crawl -l 3</code></p>
+<h3>
+<a id="user-content-timeout" class="anchor" href="#timeout" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Timeout</h3>
+<p>Option: <code>--timeout</code> | Default: <code>7</code></p>
+<p>It is possible to specify a number of seconds to wait before considering the HTTP(S) request timed out.</p>
+<p><code>python xsstrike.py -u "http://example.com/page.php?q=query" --timeout=4</code></p>
+<h3>
+<a id="user-content-delay" class="anchor" href="#delay" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Delay</h3>
+<p>Option: <code>-d</code> or <code>--delay</code> | Default: <code>0</code></p>
+<p>It is possible to specify a number of seconds to hold between each HTTP(S) request. The valid value is a int, for instance 1 means a second.</p>
+<p><code>python xsstrike.py -u "http://example.com/page.php?q=query" -d 2</code></p>
+<h3>
+<a id="user-content-supply-http-headers" class="anchor" href="#supply-http-headers" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supply HTTP headers</h3>
+<p>Option: <code>--headers</code></p>
+<p>This option will open your text editor (default is 'nano') and you can simply paste your HTTP headers and press <code>Ctrl + S</code> to save.</p>
+<p><img src="https://camo.githubusercontent.com/a766fa085be1788cf5d3bd8da40413aea8531130/68747470733a2f2f696d6167652e6962622e636f2f6a77354e67562f53637265656e73686f742d323031382d31302d32372d31382d34352d33322e706e67" alt="headers demo" data-canonical-src="https://image.ibb.co/jw5NgV/Screenshot-2018-10-27-18-45-32.png"></p>
+<p>If your operating system doesn't support this or you don't want to do this anyway, you can simply add headers from command line separated by <code>\n</code> as follows:
+<code>python xsstrike.py -u http://example.com/page.php?q=query --headers "Accept-Language: en-US\nCookie: null"</code></p>
+<h3>
+<a id="user-content-blind-xss" class="anchor" href="#blind-xss" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Blind XSS</h3>
+<p>Option: <code>--blind</code></p>
+<p>Using this option while crawling will make XSStrike inject your blind XSS payload defined in <code>core/config.py</code> to be injected to every parameter of every HTML form.</p>
+<p><code>python xsstrike.py -u http://example.com/page.php?q=query --crawl --blind</code></p>
+<h3>
+<a id="user-content-payload-encoding" class="anchor" href="#payload-encoding" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Payload Encoding</h3>
+<p>Option: <code>-e</code> or <code>--encode</code></p>
+<p>XSStrike can encode payloads on demand. Following encodings are supported as of now:</p>
+<ul>
+<li><code>base64</code></li>
+</ul>
+<p><code>python xsstrike.py -u "http://example.com/page.php?q=query" -e base64</code></p>
+<p>Want an encoding to be supported? <a href="https://github.com/s0md3v/XSStrike/issues">Open an issue</a>.</p>
+<h3>
+<a id="user-content-fuzzing" class="anchor" href="#fuzzing" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fuzzing</h3>
+<p>Option: <code>--fuzzer</code></p>
+<p>The fuzzer is meant to test filters and Web Application Firewalls. It is painfully slow because it sends randomly* delay requests and the delay can be up to 30 seconds. To minimize the delay, set the delay to 1 second by using the <code>-d</code> option.</p>
+<p><code>python xsstrike.py -u "http://example.com/search.php?q=query" --fuzzer</code></p>
+<h3>
+<a id="user-content-logging" class="anchor" href="#logging" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Logging</h3>
+<p>Option: <code>--console-log-level</code> | <code>Default: INFO</code></p>
+<p>It is possible to choose a minimum logging level to display xsstrike logs in the console:
+<code> python xsstrike.py -u "http://example.com/search.php?q=query" --console-log-level WARNING</code></p>
+<p>Option: <code>--file-log-level</code> | <code>Default: None</code></p>
+<p>If specified, xsstrike will also write all logs with equal logging level or higher to a file:
+<code> python xsstrike.py -u "http://example.com/search.php?q=query" --console-log-level DEBUG</code></p>
+<p>Option: <code>--log-file</code> | <code>Default: xsstrike.log</code></p>
+<p>Name of the file where logs will be stored. Note that if <code>--file-log-level</code>is not specified, this option will not have any effect.
+<code> python xsstrike.py -u "http://example.com/search.php?q=query" --file-log-level INFO --log-file output.log</code></p>
+<h3>
+<a id="user-content-using-proxies" class="anchor" href="#using-proxies" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using Proxies</h3>
+<p>Option: <code>--proxy</code> <strong>|</strong> Default <code>0.0.0.0:8080</code></p>
+<p>You have to set up your prox(y|ies) in <code>core/config.py</code> and then you can use the <code>--proxy</code> switch to use them whenever you want.<br>
+More information on setting up proxies can be found <a href="http://docs.python-requests.org/en/master/user/advanced/#proxies" rel="nofollow">here</a>.</p>
+<p><code>python xsstrike.py -u "http://example.com/search.php?q=query" --proxy</code></p>
+<h3>
+<a id="user-content-skip-confirmation-prompt" class="anchor" href="#skip-confirmation-prompt" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Skip Confirmation Prompt</h3>
+<p>Option: <code>--skip</code></p>
+<p>If you want XSStrike to continue the scan if a working payload found without asking you if you want to continue scanning then you can use this option. It will skip POC generation as well.</p>
+<p><code>python xsstrike.py -u "http://example.com/search.php?q=query" --skip</code></p>
+<h3>
+<a id="user-content-skip-dom-scanning" class="anchor" href="#skip-dom-scanning" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Skip DOM Scanning</h3>
+<p>Option: <code>--skip-dom</code></p>
+<p>You may want to skip DOM XSS scanning while crawling to save you time.</p>
+<p><code>python xsstrike.py -u "http://example.com/search.php?q=query" --skip-dom</code></p>
+<h3>
+<a id="user-content-update" class="anchor" href="#update" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Update</h3>
+<p>Option: <code>--update</code></p>
+<p>If this option is enabled, XSStrike will check for updates. If a newer version will available, XSStrike will download and merge the updates into the current directory without overwriting other files.</p>
+<p><code>python xsstrike.py --update</code></p>
+
+        </div>
+
+    </div>
+
+
+
+    </div>
